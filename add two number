@@ -1,0 +1,81 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+   
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int left;
+        ListNode* res = new ListNode;
+        ListNode* temp1 = l1;
+        ListNode* temp2 = l2;
+        ListNode* head = res;
+        int dig = 0;
+        if(!temp1 && !temp2) // if one of them are nullptr 
+        {
+                return res;
+        }
+        else
+        {
+            while(temp1 || temp2)
+            {
+                if(temp1 && temp2) // both of them have values 
+                {
+                    res->val = (temp1->val +  temp2->val + dig >= 10) ? temp1->val + temp2->val + dig - 10: temp1->val + temp2->val + dig ;
+                    dig = (temp1->val + temp2->val + dig >= 10) ? 1 : 0; 
+                    temp1 = temp1->next;
+                    temp2 = temp2->next;
+                    res->next=(temp1 || temp2 || dig == 1) ? new ListNode:nullptr;
+                    //res = (res->next) ? res->next: nullptr;
+                    res = res->next;
+                }
+                 else if(temp1 != nullptr && temp2 == nullptr) // temp1 has value while temp2 does not
+                {
+                    res->val = (temp1->val + dig == 10) ? temp1->val + dig - 10 : temp1->val + dig;
+                    dig = (temp1->val + dig >= 10) ? 1 : 0; 
+                    temp1 = temp1->next;
+                    res->next = (temp1 ||dig == 1) ? new ListNode:nullptr;
+                    //res = (res->next) ? res->next: nullptr;
+                    res = res->next;
+                     
+                    
+                     
+                }
+                else if(temp1 ==nullptr && temp2 != nullptr)
+                {
+                    res->val = (temp2->val + dig == 10) ? temp2->val + dig - 10 : temp2->val + dig;
+                    dig = (temp2->val + dig >= 10) ? 1 : 0; 
+                    temp2 = temp2->next;
+                    res->next = ( temp2 || dig == 1) ? new ListNode:nullptr;
+                   // res = (res->next) ? res->next: nullptr;
+                    res = res->next;
+                }
+                else // both null
+                {
+                    break;
+                    
+                }
+            
+            }
+        }
+        if(dig == 1)
+        {
+            
+            res->val = 1;
+            res->next = nullptr;
+            
+        }
+        
+        return head;
+        
+        
+        
+    }
+};
